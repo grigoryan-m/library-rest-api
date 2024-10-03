@@ -21,6 +21,12 @@ public class BookController {
         return bookService.findAll();
     }
 
+    @GetMapping("/title/{title}")
+    public List<Book> getBookByTitle(@PathVariable String title){
+        return bookService.findByTitle(title);
+    }
+
+
     @GetMapping("/{id}")
     public Book getBookById(@PathVariable long id){
         return bookService.findById(id);
@@ -53,8 +59,7 @@ public class BookController {
 
     @PatchMapping("/patch/{id}")
     public Boolean changeStatus(@PathVariable Long id, @RequestParam String status){
-        boolean isPatched = bookService.changeStatus(id, status);
-        return isPatched;
+        return bookService.changeStatus(id, status);
     }
 
     @PutMapping("/update/{id}")
