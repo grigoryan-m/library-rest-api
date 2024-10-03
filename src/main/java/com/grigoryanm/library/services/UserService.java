@@ -23,8 +23,15 @@ public class UserService {
         return userRepository.findById(id).orElse(null);
     }
 
-    public void registerUser(User user){
+    public User registerUser(User user){
+        if(userExists(user)){
+            return null;
+        }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userRepository.save(user);
+        return userRepository.save(user);
+    }
+
+    public boolean userExists(User user){
+        return userRepository.findByUsername(user.getUsername()) != null;
     }
 }

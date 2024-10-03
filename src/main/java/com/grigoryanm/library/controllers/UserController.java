@@ -20,7 +20,6 @@ public class UserController {
 
     @PostMapping("/register")
     public String registerUser(@RequestBody User user){
-        userService.registerUser(user);
-        return "User registered successfully";
+        return userService.registerUser(user) == null ? "User with this username already exists" : "Successfully registered user!";
     }
 }
