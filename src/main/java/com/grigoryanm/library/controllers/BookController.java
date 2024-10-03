@@ -4,6 +4,7 @@ import com.grigoryanm.library.models.Book;
 import com.grigoryanm.library.services.BookService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -45,11 +46,13 @@ public class BookController {
     // Adding and deleting
     
     @PostMapping("/add")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String addBook(@RequestBody Book book){
         return String.valueOf(bookService.addBook(book));
     }
 
     @DeleteMapping("/delete/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public String deleteBook(@PathVariable long id){
         bookService.deleteBook(id);
         return "Successfully deleted the book";
@@ -58,11 +61,13 @@ public class BookController {
     // Updating
 
     @PatchMapping("/patch/{id}")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public Boolean changeStatus(@PathVariable Long id, @RequestParam String status){
         return bookService.changeStatus(id, status);
     }
 
     @PutMapping("/update/{id}")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public Boolean updateBook(@PathVariable long id, @RequestBody Book book){
         return bookService.updateBook(id, book);
     }
